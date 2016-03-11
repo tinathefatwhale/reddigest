@@ -6,17 +6,32 @@
 	<title>Reddigest: Create An Account</title>
 	<script>
 		function usernamechecker(){
-			var name = $('#uname').val();
-			$.ajax({
-			    data: {"username": $('#uname').val(),},
-			    url: 'exists.php',
-			    method: "POST",
-			    dataType: 'json',
-			    success: function(data){
-			    	var n = data.name;
-					$('#usernamecheck').html(n);   
-				}
-			});
+			if(!$('#uname').val()){
+				$('#usernamecheck').addClass('has-error');
+			    		$('#usernamecheckerror').show();
+			}
+			else{
+				$.ajax({
+				    data: {"username": $('#uname').val(),},
+				    url: 'exists.php',
+				    method: "POST",
+				    dataType: 'json',
+				    beforeSend:function(){
+				    	$('#usernamecheck').addClass('has-warning').removeClass('has-error');
+				    	$('#usernamecheckerror').addClass('glyphicon-refresh').removeClass('glyphicon-remove glyphicon-ok');
+				    },
+				    success: function(data){
+				    	if(data.available === "true"){
+				    		$('#usernamecheck').addClass('has-success').removeClass('has-error has-warning');
+				    		$('#usernamecheckerror').addClass('glyphicon-ok').removeClass('glyphicon-remove glyphicon-refresh');
+				    	}
+				    	else{
+				    		$('#usernamecheck').addClass('has-error').removeClass('has-warning');
+				    		$('#usernamecheckerror').show().addClass('glyphicon-remove').removeClass('glyphicon-refresh glyphicon-ok');
+				    	}
+					}
+				});
+			}
 		}
 	</script>
 </head>
@@ -29,9 +44,9 @@
 	<div class="container">
 		<div class="well well-lg">
 			<form role="form">
-				<div class="form-group">
+				<div id="usernamecheck" class="form-group has-feedback">
 					<label for='uname'>username</label>
-					<input type='text' id='uname' onkeyup='usernamechecker()' name='uname' class='form-control' autofocus><span id='usernamecheck'></span>
+					<input type='text' id='uname' onfocus="usernamechecker()" onkeyup='usernamechecker()' onkeydown='usernamechecker()' name='uname' class='form-control' autofocus><span class="glyphicon glyphicon-remove form-control-feedback" style='display: none;' id='usernamecheckerror'></span>
 				</div>
 				<div class="form-group">
 					<label for='fname'>first name</label>
