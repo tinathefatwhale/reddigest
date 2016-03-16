@@ -1,14 +1,22 @@
 <html>
 <head>
 	<link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 	<title>Reddigest: Create An Account</title>
 	<script>
 		function usernamechecker(){
-			if(!$('#uname').val()){
-				$('#usernamecheck').addClass('has-error');
-			    		$('#usernamecheckerror').show();
+			var testuname = $('#uname').val().trim();
+			if(testuname === ""){
+				$('#unamecontainer').addClass('has-error').removeClass('has-success has-warning');
+				$('#usernamecheckerror').addClass('glyphicon-remove').removeClass('glyphicon-ok glyphicon-refresh');
+				return false;
+			}
+			else if(!(/^[a-z0-9]+$/i.test(testuname))){
+				$('#unamecontainer').addClass('has-error').removeClass('has-success has-warning');
+				$('#usernamecheckerror').addClass('glyphicon-remove').removeClass('glyphicon-ok glyphicon-refresh');
+				return false;
 			}
 			else{
 				$.ajax({
@@ -17,22 +25,83 @@
 				    method: "POST",
 				    dataType: 'json',
 				    beforeSend:function(){
-				    	$('#usernamecheck').addClass('has-warning').removeClass('has-error');
+				    	$('#unamecontainer').addClass('has-warning').removeClass('has-error has-success');
 				    	$('#usernamecheckerror').addClass('glyphicon-refresh').removeClass('glyphicon-remove glyphicon-ok');
 				    },
 				    success: function(data){
 				    	if(data.available === "true"){
-				    		$('#usernamecheck').addClass('has-success').removeClass('has-error has-warning');
+				    		//available
+				    		$('#unamecontainer').addClass('has-success').removeClass('has-error has-warning');
 				    		$('#usernamecheckerror').addClass('glyphicon-ok').removeClass('glyphicon-remove glyphicon-refresh');
+				    		return true;
 				    	}
 				    	else{
-				    		$('#usernamecheck').addClass('has-error').removeClass('has-warning');
+				    		//not available
+				    		$('#unamecontainer').addClass('has-error').removeClass('has-warning has-success');
 				    		$('#usernamecheckerror').show().addClass('glyphicon-remove').removeClass('glyphicon-refresh glyphicon-ok');
+				    		return false;
 				    	}
 					}
 				});
 			}
-		}
+		};
+
+		function checkFormComplete(){
+			var isFinished = true;
+
+			if($('#uname').val().trim() === ""){
+				isFinished = false;
+				$('#unamecontainer').addClass('has-error');
+			}
+			else $('#unamecontainer').removeClass('has-error');
+
+			if($('#email').val().trim() === ""){
+				isFinished = false;
+				$('#emailcontainer').addClass('has-error');
+			}
+			else $('#emailcontainer').removeClass('has-error');
+
+			if($('#fname').val().trim() === ""){
+				isFinished = false;
+				$('#fnamecontainer').addClass('has-error');
+			}
+			else $('#fnamecontainer').removeClass('has-error');
+
+			if($('#lname').val().trim() === ""){
+				isFinished = false;
+				$('#lnamecontainer').addClass('has-error');
+			} 
+			else $('#lnamecontainer').removeClass('has-error');
+
+			if($('#password').val().trim() === ""){
+				isFinished = false;
+				$('#passwordcontainer').addClass('has-error');
+			}
+			else $('#passwordcontainer').removeClass('has-error');
+
+			return isFinished;
+
+		};
+
+		function submitform(){
+			if(checkFormComplete()){
+				var uname = $('#uname').val().trim();
+				var fname = $('#fname').val().trim();
+				var lname = $('#lname').val().trim();
+				var email = $('#email').val().trim();
+				var pwd = $('#password').val().trim();
+				
+				$.ajax({
+				    data: {"username": uname, "fname":fname, "lname":lname,"email":email,"password":password,},
+				    url: 'authorize.php',
+				    method: "POST",
+				    dataType: 'json',
+				    success: function(data){
+				    	//TOD go to next page (returned by php)
+				    }
+				});
+			}
+		};
 	</script>
 </head>
 <body>
@@ -43,22 +112,29 @@
 	<br>
 	<div class="container">
 		<div class="well well-lg">
-			<form role="form">
-				<div id="usernamecheck" class="form-group has-feedback">
+			<form role="form" action="Javascript: submitform()">
+				<div id="unamecontainer" class="form-group has-feedback" >
 					<label for='uname'>username</label>
-					<input type='text' id='uname' onfocus="usernamechecker()" onkeyup='usernamechecker()' onkeydown='usernamechecker()' name='uname' class='form-control' autofocus><span class="glyphicon glyphicon-remove form-control-feedback" style='display: none;' id='usernamecheckerror'></span>
+					<input type='text' id='uname' onfocus="usernamechecker()" onkeyup='usernamechecker()' onkeydown='usernamechecker()' name='uname' class='form-control' ><span class="glyphicon form-control-feedback" id='usernamecheckerror'></span>
 				</div>
-				<div class="form-group">
-					<label for='fname'>first name</label>
-					<input type='text' name='fname' class='form-control'>
-				</div>
-				<div class="form-group">
-					<label for='lname'>last name</label>
-					<input type='text' name='lname' class='form-control'>
-				</div>
-				<div class="form-group">
+				<div id="emailcontainer" class="form-group has-feedback">
 					<label for='email'>email</label>
-					<input type='email' name='email' class='form-control'>
+					<input type='email' name='email' id='email' class='form-control'>
+				</div>
+				<div id="fnamecontainer" class="form-group has-feedback">
+					<label for='fname'>first name</label>
+					<input type='text' name='fname' id='fname' class='form-control'>
+				</div>
+				<div id="lnamecontainer" class="form-group has-feedback">
+					<label for='lname'>last name</label>
+					<input type='text' name='lname' id='lname' class='form-control'>
+				</div>
+				<div id="passwordcontainer" class="form-group has-feedback">
+					<label for='password'>password</label>
+					<input type='password' name='password' id='password' class='form-control'>
+				</div>
+				<div class="form-group">
+					<button class="btn btn-block" id='submitbutton'>Submit</button>
 				</div>
 			</form>
 		</div>

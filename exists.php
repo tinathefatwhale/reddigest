@@ -6,7 +6,7 @@
 		$password = "root";
 		$db = "huntermi_reddigest";
 		$conn = new mysqli($servername, $username, $password, $db);
-		$sql = "SELECT * FROM users WHERE username = '{$u}'";
+		$sql = "SELECT username FROM users WHERE username = '{$u}'";
 		$res = $conn->query($sql);
 		if($res->num_rows < 1){
 			echo json_encode(array('available'=> 'true', 'username'=> $u,));
