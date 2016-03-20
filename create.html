@@ -11,12 +11,12 @@
 			if(testuname === ""){
 				$('#unamecontainer').addClass('has-error').removeClass('has-success has-warning');
 				$('#usernamecheckerror').addClass('glyphicon-remove').removeClass('glyphicon-ok glyphicon-refresh');
-				return false;
+				// return false;
 			}
 			else if(!(/^[a-z0-9]+$/i.test(testuname))){
 				$('#unamecontainer').addClass('has-error').removeClass('has-success has-warning');
 				$('#usernamecheckerror').addClass('glyphicon-remove').removeClass('glyphicon-ok glyphicon-refresh');
-				return false;
+				// return false;
 			}
 			else{
 				$.ajax({
@@ -33,13 +33,13 @@
 				    		//available
 				    		$('#unamecontainer').addClass('has-success').removeClass('has-error has-warning');
 				    		$('#usernamecheckerror').addClass('glyphicon-ok').removeClass('glyphicon-remove glyphicon-refresh');
-				    		return true;
+				    		// return true;
 				    	}
 				    	else{
 				    		//not available
 				    		$('#unamecontainer').addClass('has-error').removeClass('has-warning has-success');
 				    		$('#usernamecheckerror').show().addClass('glyphicon-remove').removeClass('glyphicon-refresh glyphicon-ok');
-				    		return false;
+				    		// return false;
 				    	}
 					}
 				});
@@ -85,19 +85,25 @@
 
 		function submitform(){
 			if(checkFormComplete()){
+				
 				var uname = $('#uname').val().trim();
 				var fname = $('#fname').val().trim();
 				var lname = $('#lname').val().trim();
 				var email = $('#email').val().trim();
 				var pwd = $('#password').val().trim();
-				
+				console.log(uname+" "+fname+" "+lname+" "+email+" "+pwd);
 				$.ajax({
-				    data: {"username": uname, "fname":fname, "lname":lname,"email":email,"password":password,},
+				    data: {"username": uname, "fname":fname, "lname":lname,"email":email,"password":pwd},
 				    url: 'authorize.php',
 				    method: "POST",
+				   
 				    dataType: 'json',
 				    success: function(data){
-				    	//TOD go to next page (returned by php)
+				    	//TODO go to next page (returned by php)
+				    	console.log(data);
+				    },
+				    fail: function(data){
+				    	console.log(data);
 				    }
 				});
 			}
