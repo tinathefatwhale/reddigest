@@ -24,7 +24,7 @@
 		$res = $conn->query($sql);
 		$uid = $res->fetch_assoc()["ID"];
 
-		$_SESSION["userid"] = $uid;
+		$_SESSION["uid"] = $uid;
 		$_SESSION["state"] = $state;
 		$_SESSION["username"] = $username;
 

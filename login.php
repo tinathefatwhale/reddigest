@@ -6,34 +6,42 @@ session_start();
 	if(!empty($_POST["uname"])){
 		
 		// $servername = '192.185.225.118';
-		$servername = 'localhost';
+		$sn = 'localhost';
 		// $username = 'huntermi_rddgst';
-		$username = 'root';
+		$u = 'root';
 		// $password = 'testaroo123';
-		$password = 'root';
+		$p = 'root';
 		
 		$db = 'huntermi_reddigest';
-		$conn = new mysqli($servername, $username, $password, $db);
+		$conn = new mysqli($sn, $u, $p, $db);
 	
-		$u = $_POST["uname"];
-		$p = $_POST["pword"];
-
-		$sql = "SELECT * FROM links JOIN users ON users.ID=Links.userID WHERE users.username='{$u}' AND users.password='{$p}'";
-
-		$res = $conn->query($sql);
-		
-		$ret = array();
+		$username = $_POST["uname"];
+		$password = $_POST["pword"];
+		//TODO: Change this to 2 queries
+		$qu = "SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}'";
+		$res = $conn->query($qu);
 		if($res->num_rows > 0){
 			$row = $res->fetch_assoc();
-			// echo(json_encode(array("status" => "ACCEPT", "user" => $u, "pass" => $p, "data" => $row)));
-			while($row = $res->fetch_assoc()){
-				$ret[$row["ID"]] = $row["url"];
-				//array_push($ret, $row["url"]);
-				$_SESSION["userid"] = $row["userID"];
-			}
+			$uid = intval($row["ID"]);
+			$_SESSION["uid"] = $uid;
 
-			echo(json_encode(array("status" => "ACCEPT", "links" => json_encode($ret), "userid" => $_SESSION["userid"])));
-		}
+			$sql = "SELECT * FROM links WHERE userID = '{$uid}'";
+
+			$res = $conn->query($sql);
+			
+			$ret = array();
+			if($res->num_rows > 0){
+				//$row = $res->fetch_assoc();
+				// echo(json_encode(array("status" => "ACCEPT", "user" => $u, "pass" => $p, "data" => $row)));
+				while($row = $res->fetch_assoc()){
+					//$ret[$row["ID"]] = $row["url"];
+					array_push($ret, $row["url"]);
+				}
+
+				echo(json_encode(array("status" => "ACCEPT", "links" => json_encode($ret), "uid" => $uid)));
+			}
+			else echo(json_encode(array("status" => "DENY")));	
+		}		
 		else echo(json_encode(array("status" => "DENY")));
 		
 	}

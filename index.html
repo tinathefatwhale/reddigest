@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en"></html>
 <head>
 	<link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
@@ -36,16 +36,6 @@
 </body>
 </html>
 <script>
-	function loadscript(){
-		// $('#thestuff').hide();
-		// $('#thestuff').fadeIn(650);
-
-		$('#loginbutton').addClass("disabled");
-		$('#thestuff').slideDown(1000);
-		$('#loginform').delay(800).slideDown(400);
-		verifyInputPresent();
-	}
-
 	function verifyInputPresent(){
 		if($('#uname').val() && $('#pword').val()){
 			$('#loginbutton').removeClass('disabled');
@@ -74,6 +64,27 @@
 				}
 			}
 		});
-
 	}
+
+	function loadscript(){
+		$.ajax({
+			data: {"test":"stuff",},
+			url: "continue.php",
+			method: 'GET',
+			dataType: 'json',
+			success: function(data){
+				if(data.status === "ACCEPT"){
+					var links = $.parseJSON(data.links);
+				}
+				else{
+					$('#loginbutton').addClass("disabled");
+					$('#thestuff').slideDown(1000);
+					$('#loginform').delay(800).slideDown(400);
+					verifyInputPresent();
+				}
+			}
+		});
+	}
+
+
 </script>
