@@ -2,9 +2,9 @@
 	if(!empty($_POST["username"])){
 		$u = $_POST["username"];
 		$servername = "localhost";
-		$username = "root";
-		$password = "root";
-		$db = "huntermi_reddigest";
+		$username = "redditviewer";
+		$password = "reddit4Ever";
+		$db = "redditviewer";
 		$conn = new mysqli($servername, $username, $password, $db);
 		$sql = "SELECT username FROM users WHERE username = '{$u}'";
 		$res = $conn->query($sql);

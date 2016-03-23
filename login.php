@@ -8,11 +8,11 @@ session_start();
 		// $servername = '192.185.225.118';
 		$sn = 'localhost';
 		// $username = 'huntermi_rddgst';
-		$u = 'root';
+		$u = 'redditviewer';
 		// $password = 'testaroo123';
-		$p = 'root';
+		$p = 'reddit4Ever';
 		
-		$db = 'huntermi_reddigest';
+		$db = 'redditviewer';
 		$conn = new mysqli($sn, $u, $p, $db);
 	
 		$username = $_POST["uname"];

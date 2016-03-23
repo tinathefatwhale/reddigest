@@ -7,12 +7,12 @@ if($_SESSION["uid"] !== ""){
 	$uid = intval($_SESSION["uid"]);
 	$uname = $_SESSION["uname"];
 
-	$sn = 'localhost';
+	$sn = 'dias12.cs.trinity.edu';
 	// $u = 'huntermi_rddgst';
-	$u = 'root';
+	$u = 'redditviewer';
 	// $p = 'testaroo123';
-	$p = 'root';
-	$db = 'huntermi_reddigest';
+	$p = 'reddit4Ever';
+	$db = 'redditviewer';
 	$conn = new mysqli($sn, $u, $p, $db);
 
 	$sql = "SELECT * FROM links WHERE userID='{$uid}'";
