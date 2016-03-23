@@ -8,19 +8,30 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
   <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="row_formatting.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
+  <link rel="stylesheet" type="text/css" href="style_evan.css">
   
 </head>
 <script>
 	
 	$(document).ready(function(){
-		populate_link_table();	
+		$.ajax({
+			url:"http://www.reddit.com/r/all.json",
+			type: "GET",
+			dataType: "json",
+			header: {'Access-Control-Allow-Origin':'http://www.reddit.com'},
+			data: {t: "day", limit: get_max_rows()},
+			success: function(link_list){
+					link_list.data.children.forEach(function(obj) {
+						console.log(obj); 
+						console.log(obj);
+						populate_link(obj)
+					});
+				}
+		});
 	});
-		
 	
 </script>
 
-<button onclick="add_row()">Add row!</button>
 <body>
 <div id="link_table">
 
