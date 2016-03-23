@@ -147,7 +147,7 @@ function create_link(l_c, a_l, a_t, a_s_n, p_l, p_n, s_l, s_n, c_c, c_l){
 	ret+='<a href=\"';
 	ret+= s_l;//link to subreddit
 	ret+='\">';
-	ret+= s_l;//name of subreddit
+	ret+= s_n;//name of subreddit
 	ret+='</a>';
 	ret+=' | ';
 	ret+='<a href=\"';
