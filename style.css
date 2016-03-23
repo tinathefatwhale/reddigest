@@ -1,5 +1,7 @@
 body{
+	color: #D8D8D8;
 	background-color: #4d4d4d;
+	
 }
 
 h1{
@@ -19,6 +21,13 @@ span{
 	margin-top: 5px;
 	font-size: 14pt;
 }
-row{
-	background-color:lavender;
+
+a:link {
+	color: #E8E8E8;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #D8D8D8;
+	text-decoration: underline;
 }
