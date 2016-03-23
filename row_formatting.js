@@ -38,7 +38,7 @@ function populate_link_table(){
 	var row_color_style = "";
 	
 	//TODO for each in json object.
-	while(row_count < max_row_count){
+	while(row_count < get_max_rows()){
 		++row_count;
 		if(row_color_flag == true){
 			row_color_style = "#848482";
