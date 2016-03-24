@@ -7,7 +7,7 @@
 var the_row_color_flag = true;
 
 var unseen = [];
-var cur_max_links = 100;
+// var cur_max_links = 100;
 var local_seen_list = [];
 
 function get_new_links(){
@@ -56,13 +56,13 @@ function get_max_rows(){//NOTE(Evan): This allows us to eventually scale rows wi
 }
 
 
-function get_max_links(inc){//NOTE(Evan): This allows us to eventually scale rows with screen size.
+function get_max_links(){//NOTE(Evan): This allows us to eventually scale rows with screen size.
 	/**
 	 * @fn get_max_links()
 	 * @brief Largest request to make to reddit.
 	 */
-	cur_max_links += inc; //TODO this is not sustainable.
-	return cur_max_links;
+	// cur_max_links += inc; //TODO this is not sustainable.
+	return 1000;
 }
 
 
@@ -234,16 +234,12 @@ function remove_row(row_num){
 	
 	var seen_flag = false;
 	var preserve_obj;
-	var dif = 20;
-	if(get_max_links(0) > 1000){
-		var increase_query = 0;
-	}
 		$.ajax({
 				url:"http://www.reddit.com/r/all.json",
 				type: "GET",
 				dataType: "json",
 				header: {'Access-Control-Allow-Origin':'http://www.reddit.com'},
-				data: {t: "day", limit: get_max_links(increase_query)},
+				data: {t: "day", limit: get_max_links()},
 				success: function(link_list){
 					link_list.data.children.forEach(function(obj) {
 						if(try_link(obj.data.url) === true && seen_flag === false){
