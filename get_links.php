@@ -23,8 +23,7 @@ if($_SESSION["uid"] !== ""){
 		$link = $row["url"];
 		array_push($ret, $link);
 	}
-	$arr = json_encode($ret);
-	echo json_encode(array('links' => $arr));
+	echo json_encode(array("links" => $ret));
 
 }
 else echo json_encode("error!");
