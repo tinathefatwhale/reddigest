@@ -1,36 +1,44 @@
 <?php
 	if($_SERVER["REQUEST_METHOD"] === "POST"){
-		session_start();
+		
+                session_start();
 		$username = htmlspecialchars($_POST["username"]);
 		$fname = htmlspecialchars($_POST["fname"]);
 		$lname = htmlspecialchars($_POST["lname"]);
 		$email = htmlspecialchars($_POST["email"]);
 		$password = htmlspecialchars($_POST["password"]);
-
+        
 		$state = crypt($username,'a!d@l');
 		$sn = 'localhost';
 		// $username = 'huntermi_rddgst';
-		$u = 'root';
+		$u = 'redditviewer';
 		// $password = 'testaroo123';
-		$p = 'root';
-		$db = 'huntermi_reddigest';
+		$p = 'reddit4Ever';
+		$db = 'redditviewer';
 		$conn = new mysqli($sn, $u, $p, $db);
+		if ($conn->connect_error) {
+                       die('Connect Error (' . $conn->connect_errno . ') '
+                            .$conn->connect_error);
+                }
+                
+		$sql = "INSERT INTO users (username,password,firstname,lastname,email,state) VALUES ('{$username}','{$password}','{$fname}','{$lname}','{$email}','{$state}')";
 
-		$sql = "INSERT INTO users (username,password,state,firstname,lastname) VALUES ('{$username}','{$password}','{$state}','{$fname}','{$lname}')";
-
-		$conn->query($sql);
-		$sql = "SELECT ID FROM users WHERE username = '{username}'";
-
-		$res = $conn->query($sql);
-		$uid = $res->fetch_assoc()["ID"];
-
-		$_SESSION["uid"] = $uid;
-		$_SESSION["state"] = $state;
+		$query = $conn->query($sql);
+                if(!$query) {
+                  echo json_encode("error!");  
+                }
+                $uid = $conn->insert_id;
+               
+	        $_SESSION["uid"] = $uid;
+                $_SESSION["state"] = $state;
 		$_SESSION["username"] = $username;
 
-		//TOD return this url to get user to allow app
 		$url = 'https://www.reddit.com/api/v1/authorize?client_id=VJ-N3jbAJ1fjsQ&response_type=code&'.$state.'&redirect_uri=http://www.johnhuntermiller.com/reddigest&duration=permanent&scope=history';
-		echo json_encode(array("uid"=>$uid,"state"=>$state,"username"=>$username,"url"=>$url,));
-	}
-	else echo json_encode(array("error"=>"error",));
+		echo json_encode(array("uid"=>$uid,"username"=>$username));
+                
+	
+        }
+	else {
+             echo json_encode(array("error"=>"error",));
+        }
 ?>

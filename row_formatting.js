@@ -16,7 +16,7 @@ function get_new_links(){
 		type: "GET",
 		dataType: "json",
 		header: {'Access-Control-Allow-Origin':'http://www.reddit.com'},
-		data: {t: "day", limit: get_max_links(25)},
+		data: {t: "day", limit: 1000},
 		success: function(obj){
 			populate_batch(obj);
 		}
@@ -41,7 +41,7 @@ function populate_batch(input_obj){
 		}
 	});
 	if(row_count !== get_max_rows()){
-		//TODO
+		alert("It's time to go outside");
 	}
 }
 
