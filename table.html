@@ -12,6 +12,8 @@
   
 </head>
 <script>
+		$(document).ready(get_new_links());
+	
         function logout(){
                 $.ajax({
                         url: "logout.php",
@@ -23,22 +25,6 @@
                         }
                 });
         }	
-	$(document).ready(function(){
-		$.ajax({
-			url:"http://www.reddit.com/r/all.json",
-			type: "GET",
-			dataType: "json",
-			header: {'Access-Control-Allow-Origin':'http://www.reddit.com'},
-			data: {t: "day", limit: get_max_rows()},
-			success: function(link_list){
-					link_list.data.children.forEach(function(obj) {
-						console.log(obj); 
-						console.log(obj);
-						populate_link(obj)
-					});
-				}
-		});
-	});
 	
 </script>
 

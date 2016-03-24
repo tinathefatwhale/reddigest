@@ -70,7 +70,7 @@ function populate_link(row_count, link){
 	 * @param A link JSON object from Reddit.
 	 * @brief Adds a row to the current page (typically used on load).
 	 */
-	if($.inArray(link.data.url) > -1){
+	if(unseen.indexOf(link.data.url) > -1){
 		return false;
 	} else {
 		var table_body = document.getElementById("link_table");
@@ -232,6 +232,10 @@ function remove_row(row_num){
 	
 	var seen_flag = false;
 	var preserve_obj;
+	if(get_max_links(0) > 1000){
+		alert("It's time to go outside.");
+		return;	
+	}
 		$.ajax({
 				url:"http://www.reddit.com/r/all.json",
 				type: "GET",
