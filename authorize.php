@@ -1,12 +1,12 @@
 <?php
 	if($_SERVER["REQUEST_METHOD"] === "POST"){
-		
+	
                 session_start();
-		$username = htmlspecialchars($_POST["username"]);
-		$fname = htmlspecialchars($_POST["fname"]);
-		$lname = htmlspecialchars($_POST["lname"]);
-		$email = htmlspecialchars($_POST["email"]);
-		$password = htmlspecialchars($_POST["password"]);
+		$username = mysqli_real_escape_string($_POST["username"]);
+		$fname = mysqli_real_escape_string($_POST["fname"]);
+		$lname = mysqli_real_escape_string($_POST["lname"]);
+		$email = mysqli_real_escape_string($_POST["email"]);
+		$password = mysqli_real_escape_string($_POST["password"]);
         
 		$state = crypt($username,'a!d@l');
 		$sn = 'localhost';
