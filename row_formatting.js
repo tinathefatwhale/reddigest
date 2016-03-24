@@ -16,6 +16,7 @@ function get_new_links(){
 	 * @brief Fetches a batch of links from reddit as JSON to be processed.
 	 */
 	get_seen();
+	
 	$.ajax({
 		url:"http://www.reddit.com/r/all.json",
 		type: "GET",
@@ -74,6 +75,7 @@ function populate_link(row_count, link){
 	 */
 	var url_to_check = link.data.url;
 	url_to_check.replace("\/","/");
+	
 	if(try_link(url_to_check) === false){
 		return false;
 	} else {
@@ -211,7 +213,6 @@ function create_link(cur_row, l_c, a_l, a_t, a_s_n, p_l, p_n, s_l, s_n, c_c, c_l
 }
 
 
-var increase_query = 20;
 function remove_row(row_num){
 	/**
 	 * @fn remove_row(row_num)
