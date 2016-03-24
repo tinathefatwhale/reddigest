@@ -49,12 +49,14 @@
 			dataType: 'json',
 			success: function(data){
 				if(data.status === "ACCEPT"){
+					console.log("hello");
 					$('#thestuff').slideDown(1000);
 				}
 				else{
+					console.log("goodbye");
 					$('#loginbutton').addClass("disabled");
 					$('#logoutbutton').hide();
-                                        $('#thestuff').slideDown(1000);
+                    $('#thestuff').slideDown(1000);
 					$('#loginform').delay(800).slideDown(400);
 					verifyInputPresent();
 				}
