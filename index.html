@@ -1,6 +1,68 @@
-
+<script>
+	function logout(){
+		$.ajax({
+			url: "logout.php",
+			method: "GET",
+			dataType: "json",
+			success: function(data){
+				location.reload();
+				
+			}
+		});
+	}
+	function verifyInputPresent(){
+		if($('#uname').val() && $('#pword').val()){
+			$('#loginbutton').removeClass('disabled');
+			$('#loginbutton').addClass('btn-success');
+		}
+		else $('#loginbutton').addClass('disabled');
+	}
+	function login(){
+		var u = $('#uname').val();
+		var p = $('#pword').val();
+		
+		$.ajax({
+		    data: {"uname": u,"pword" : p,},
+		    url: 'login.php',
+		    method: "POST",
+		    dataType: 'json',
+		    success: function(data){
+		    	if(data.status == "DENY"){
+		    		//username/password not recognized
+                                console.log("get rekt");
+		    	}
+		    	else{
+		    		//var links = $.parseJSON(data.links);
+				window.location.href = "table.html";
+		    		//$('#loginform').hide();
+		    		//links = array of urls
+		    		//data.userid = userid (also stored in session)
+				}
+			}
+		});
+	}
+	function loadscript(){
+		$.ajax({
+			data: {"test":"stuff",},
+			url: "continue.php",
+			method: 'GET',
+			dataType: 'json',
+			success: function(data){
+				if(data.status === "ACCEPT"){
+					$('#thestuff').slideDown(1000);
+				}
+				else{
+					$('#loginbutton').addClass("disabled");
+					$('#logoutbutton').hide();
+                                        $('#thestuff').slideDown(1000);
+					$('#loginform').delay(800).slideDown(400);
+					verifyInputPresent();
+				}
+			}
+		});
+	}
+</script>
 <html lang="en"></html>
-<meta charset="UTF-8"> 
 <head>
 	<link rel='stylesheet' type="text/css" href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css'>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
@@ -9,6 +71,7 @@
 </head>
 <body onload='loadscript()' onmousemove="verifyInputPresent()">
 <br>
+<div><button class="btn btn-warning pull-right" style="margin-right: 1%;" onclick="logout()" id="logoutbutton">Log Out</button></div>
 <div class='container'>
 
 	<div class='jumbotron' id='thestuff' style='display: none;'>
@@ -26,7 +89,7 @@
 				<label class="text-justify" for="pword">Password</label>
 				<input class="form-control" type="password" id="pword" name="pword" onkeyup="verifyInputPresent()">
 			</div>
-			<button onmouseover="verifyInputPresent" id='loginbutton' class="btn btn-block">Log In</button>
+			<button onmouseover="verifyInputPresent()" id='loginbutton' class="btn btn-block">Log In</button>
 		</form>
 		<br>
 		<a href="create.html">New user? Click here</a>
@@ -34,58 +97,3 @@
 	</div>
 
 </div>
-</body>
-</html>
-<script>
-	function verifyInputPresent(){
-		if($('#uname').val() && $('#pword').val()){
-			$('#loginbutton').removeClass('disabled');
-			$('#loginbutton').addClass('btn-success');
-		}
-		else $('#loginbutton').addClass('disabled');
-	}
-
-	function login(){
-		var u = $('#uname').val();
-		var p = $('#pword').val();
-		
-		$.ajax({
-		    data: {"uname": u,"pword" : p,},
-		    url: 'login.php',
-		    method: "POST",
-		    dataType: 'json',
-		    success: function(data){
-		    	if(data.status == "DENY"){
-		    		//username/password not recognized
-		    	}
-		    	else{
-		    		var links = $.parseJSON(data.links);
-		    		//links = array of urls
-		    		//data.userid = userid (also stored in session)
-				}
-			}
-		});
-	}
-
-	function loadscript(){
-		$.ajax({
-			data: {"test":"stuff",},
-			url: "continue.php",
-			method: 'GET',
-			dataType: 'json',
-			success: function(data){
-				if(data.status === "ACCEPT"){
-					var links = $.parseJSON(data.links);
-				}
-				else{
-					$('#loginbutton').addClass("disabled");
-					$('#thestuff').slideDown(1000);
-					$('#loginform').delay(800).slideDown(400);
-					verifyInputPresent();
-				}
-			}
-		});
-	}
-
-
-</script>

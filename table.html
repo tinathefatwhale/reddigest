@@ -12,7 +12,17 @@
   
 </head>
 <script>
-	
+        function logout(){
+                $.ajax({
+                        url: "logout.php",
+                        method: "GET",
+                        dataType: "json",
+                        success: function(data){
+                              window.location.href="index.html"; 
+                                
+                        }
+                });
+        }	
 	$(document).ready(function(){
 		$.ajax({
 			url:"http://www.reddit.com/r/all.json",
@@ -33,8 +43,10 @@
 </script>
 
 <body>
+<div><button class="btn btn-warning pull-right" style="margin-right: 1%;" onclick="logout()">Log Out</button></div>
 <div id="link_table">
 
 </div>
 </body>
+
 </html>

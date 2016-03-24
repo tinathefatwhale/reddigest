@@ -1,0 +1,37 @@
+body{
+	background-color: #4d4d4d;
+	
+}
+
+h1{
+	font-family: tahoma;
+}
+
+input{
+	font-size: 14pt;
+	font-family: verdana;
+}
+
+label{
+	font-size: 14pt;
+	font-family: verdana;
+}
+span{
+	margin-top: 5px;
+	font-size: 14pt;
+}
+
+a:link {
+	color: #E8E8E8;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #D8D8D8;
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #E8E8E8;
+	text-decoration: none;
+}

@@ -99,11 +99,12 @@
 				   
 				    dataType: 'json',
 				    success: function(data){
-				    	//TODO go to next page (returned by php)
 				    	console.log(data);
-				    },
-				    fail: function(data){
+				        window.location.href = "table.html";
+                                    },
+				    error: function(data,thrownError){
 				    	console.log(data);
+                                        alert(thrownError);
 				    }
 				});
 			}
