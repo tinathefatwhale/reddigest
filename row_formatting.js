@@ -15,7 +15,7 @@ function get_new_links(){
 	 * @fn get_links()
 	 * @brief Fetches a batch of links from reddit as JSON to be processed.
 	 */
-	//get_seen();
+	get_seen();
 	$.ajax({
 		url:"http://www.reddit.com/r/all.json",
 		type: "GET",
@@ -227,7 +227,7 @@ function remove_row(row_num){
 	}		
 	
 	console.log(row_color_style);
-	
+        console.log(link.href);	
 	seen_link(link.href);
 	
 	var new_flag = false;
@@ -244,7 +244,9 @@ function remove_row(row_num){
 				data: {t: "day", limit: get_max_links()},
 				success: function(link_list){
 					link_list.data.children.forEach(function(obj) {
-						if(try_link(obj.data.url) === true && seen_flag === false){
+						obj.data.url = obj.data.url.replace("\/","/");
+						console.log(obj.data.url);
+							if(try_link(obj.data.url) === true && seen_flag === false){
 							this_row.innerHTML = fetch_row(row_num, row_color_style, obj);
 							seen_flag = true;
 						}
@@ -263,6 +265,7 @@ function try_link(link){
 	if(unseen.indexOf(link) > -1){
 		return false;
 	} else if (local_seen_list.indexOf(link) > -1){
+                //console.log("hello!"+link);
 		return false;
 	} else {
 		return true;
@@ -275,11 +278,18 @@ function seen_link(old_link){
 	 * @brief Stores a seen link in the database and on local store.
 	 */
 	local_seen_list.push(old_link);
+        console.log(old_link);
 	$.ajax({
 		url:"store_links.php",
 		type: "POST",
 		datatype: "json",
-		data: {link: old_link}
+		data: {link: old_link},
+                success: function(data) {
+                  //console.log(data);
+                },
+                error: function(data) {
+                  //console.log("bad");
+                }
 	});
 }
 
@@ -293,8 +303,11 @@ function get_seen(){
 		type: "POST",
 		datatype: "json",
 		success: function(obj){
-			obj.forEach(function(link){
-				console.log(link);
+			console.log(obj);
+                        var parsed = JSON.parse(obj);
+                        console.log(parsed);
+                        jQuery.each(parsed.links,function(i,link){
+                                console.log(link);
 				local_seen_list.push(link);
 			});
 		}
