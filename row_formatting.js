@@ -45,9 +45,6 @@ function populate_batch(input_obj){
 			++row_count;
 		}
 	});
-	if(row_count !== get_max_rows()){
-		alert("It's time to go outside");
-	}
 }
 
 function get_max_rows(){//NOTE(Evan): This allows us to eventually scale rows with screen size.
@@ -256,9 +253,6 @@ function remove_row(row_num){
 					});
 				}
 		});
-		if(seen_flag === false){
-			alert("It's time to go outside");
-		}
 }
 
 function try_link(link){
