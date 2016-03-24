@@ -72,7 +72,9 @@ function populate_link(row_count, link){
 	 * @param A link JSON object from Reddit.
 	 * @brief Adds a row to the current page (typically used on load).
 	 */
-	if(unseen.indexOf(link.data.url) > -1){
+	var url_to_check = link.data.url;
+	url_to_check.replace("\/","/");
+	if(try_link(url_to_check) === false){
 		return false;
 	} else {
 		var table_body = document.getElementById("link_table");
