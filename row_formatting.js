@@ -1,4 +1,9 @@
 
+/**
+ * @Author Evan Cofer
+ * @Brief https://github.com/evancofer
+ */
+
 var the_row_color_flag = true;
 
 var unseen = [];
@@ -207,7 +212,7 @@ function create_link(cur_row, l_c, a_l, a_t, a_s_n, p_l, p_n, s_l, s_n, c_c, c_l
 }
 
 
-var increase_query = 0;
+var increase_query = 20;
 function remove_row(row_num){
 	/**
 	 * @fn remove_row(row_num)
@@ -232,9 +237,9 @@ function remove_row(row_num){
 	
 	var seen_flag = false;
 	var preserve_obj;
+	var dif = 20;
 	if(get_max_links(0) > 1000){
-		alert("It's time to go outside.");
-		return;	
+		var increase_query = 0;
 	}
 		$.ajax({
 				url:"http://www.reddit.com/r/all.json",
@@ -251,6 +256,9 @@ function remove_row(row_num){
 					});
 				}
 		});
+		if(seen_flag === false){
+			alert("It's time to go outside");
+		}
 }
 
 function try_link(link){
